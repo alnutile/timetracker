@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @file 
+ * Time Tracker Setup
+ */
+
+
+/**
+ * Implements hook_permission() to provide a demonstration access string.
+ */
+function timetracker_permission() {
+  return array(
+    'admin time' =>  array(
+      'title' => t('Administer All Time [evil laugh here]'),
+    ),
+    'access own time' =>  array(
+      'title' => t('See only your time and import'),
+    ),
+  );
+
+}
+
+
+
+/**
+ * Implementation of hook_menu().
+ */
+function timetracker_menu() {
+
+  $items['admin/config/timetracker'] = array(
+    'title' => 'Time Tracker Admin Area',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('timetracker_admin_uploader'),
+    'access arguments' => array('admin time'),
+    'file' => 'inc/timetracker.admin.inc',
+  );
+
+  $items['admin/config/timetracker/import'] = array(
+    'title' => 'Time Tracker Admin Import',
+    'page callback' => 'timetracker_admin_import',
+    'access arguments' => array('admin time'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'inc/timetracker.admin.inc',
+  );
+
+  $items['admin/config/timetracker/reports'] = array(
+    'title' => 'Time Tracker Admin Report',
+    'page callback' => 'timetracker_admin_report',
+    'access arguments' => array('admin time'),
+    'file' => 'inc/timetracker.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  
+  $items['user/%user/timetracker'] = array(
+    'title' => 'Your Times',
+    'page callback' => 'timetracker_your_time',
+    'page arguments' => array(2),
+    'access arguments' => array('access own time'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'inc/timetracker.user.inc',
+  );  
+  
+  return $items;
+}

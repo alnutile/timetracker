@@ -1,0 +1,8 @@
+name = Time Tracker
+description = Track Time on Tasks
+package = Time Tracker
+core = 7.x
+files[] = timetracker.test
+; dependencies[] = taxonomy
+stylesheets[all][] = timetracker.css
+scripts[] = timetracker.js
